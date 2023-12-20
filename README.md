@@ -67,7 +67,7 @@ new Vue({
 </script>
 ```
 
-4. 使用
+5. 使用
 
 ```javascript
 // this.$modal是当前new Modal的实例已经自定注册
@@ -86,7 +86,7 @@ await this.$modal.open("modalName", {
 });
 ```
 
-5. API
+6. API
 
 - open(modalName,{props,on}) 打开弹窗
 

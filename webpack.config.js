@@ -1,15 +1,15 @@
 const path = require("path");
 
 module.exports = {
-  mode: "development",
-  // mode: "production",
+  // mode: "development",
+  mode: "production",
   devtool: "source-map",
   entry: "./src/index.js",
-  //   entry: "./src/test.js",
   output: {
     filename: "index.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
+    libraryTarget: "umd",
   },
   module: {
     rules: [
