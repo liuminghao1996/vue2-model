@@ -1,7 +1,7 @@
 import { install } from "./install";
 class Modal {
   constructor(options) {
-    console.log("modal 配置选项", options);
+    console.log("modal options", options);
     this.$options = options;
   }
   getModal(modalName) {

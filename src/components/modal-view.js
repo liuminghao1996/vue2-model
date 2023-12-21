@@ -1,10 +1,21 @@
 let modalComponent = null;
 export default {
   name: "modal-view",
+  props: {
+    name: {
+      type: String,
+      default: "fade",
+    },
+    mode: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
       visible: false,
       options: {},
+      componentVisible: false,
     };
   },
 
@@ -14,6 +25,7 @@ export default {
       return new Promise((resolve) => {
         modalComponent = this.$modal.getModal(modalName);
         this.visible = true;
+        this.componentVisible = true;
         const close = () => {
           this.close();
           resolve();
@@ -22,7 +34,7 @@ export default {
       });
     },
     close() {
-      this.visible = false;
+      this.componentVisible = false;
     },
   },
   mounted() {
@@ -30,44 +42,47 @@ export default {
     this.$modal.close = this.close;
   },
   render(h) {
-    // console.log(this.$attrs, this.$el, this.props);
     return h(
-      "transition",
+      "div",
       {
-        attrs: {
-          name: "fade",
-        },
-        on: {
-          afterLeave: () => {
-            modalComponent = null;
+        class: "modal-wrapper",
+        directives: [
+          {
+            name: "show",
+            value: this.visible,
           },
-        },
+        ],
       },
       [
         h(
-          "div",
+          "transition",
           {
-            directives: [
-              {
-                name: "show",
-                value: this.visible,
+            attrs: { name: this.name, mode: this.mode },
+            on: {
+              afterLeave: () => {
+                modalComponent = null;
+                this.visible = false;
               },
-            ],
-
-            class: "modal-wrapper",
+            },
           },
-          modalComponent
-            ? [
-                h(
+          [
+            modalComponent
+              ? h(
                   modalComponent.component,
                   {
                     props: this.options.props,
                     on: this.options.on,
+                    directives: [
+                      {
+                        name: "show",
+                        value: this.componentVisible,
+                      },
+                    ],
                   },
                   ""
-                ),
-              ]
-            : ""
+                )
+              : "",
+          ]
         ),
       ]
     );

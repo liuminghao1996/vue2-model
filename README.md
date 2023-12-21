@@ -33,7 +33,7 @@ new Vue({
 <!-- modalView是全局组件，所以不需要引入，后面调用的modal会在这个modalView展示 -->
 <template>
   <div id="app">
-    <modal-view />
+    <modal-view name="fade" />
   </div>
 </template>
 ```
@@ -44,7 +44,7 @@ new Vue({
 <template>
   <div class="hello">
     {{ msg }}
-    <button @click="cutemit">促发emit</button>
+    <button @click="onChange">促发emit</button>
     <button @click="closeModal">关闭弹窗</button>
   </div>
 </template>
@@ -59,7 +59,7 @@ new Vue({
       closeModal() {
         this.$modal.close();
       },
-      cutemit() {
+      onChange() {
         this.$emit("change", "hello world");
       },
     },
@@ -75,7 +75,6 @@ await this.$modal.open("modalName", {
   // 传递给组件的props
   props: {
     msg: this.msg,
-    obj: this.obj,
   },
   // 监听$emit出来得事件
   on: {
@@ -91,3 +90,4 @@ await this.$modal.open("modalName", {
 - open(modalName,{props,on}) 打开弹窗
 
 * close() 关闭弹窗
+* modal-view 组件接收 name 属性，传递给 Vue 的 Transition 组件 以来添加显示消失动画
